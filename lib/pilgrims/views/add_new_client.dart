@@ -78,11 +78,10 @@ class _AddNewClientState extends State<AddNewClient> {
                         child: Text("رقم الجوال")),
                   ),
                   const SizedBox(height: 11),
-                  NumberTextField(
-                    controller: numController,
-                    labelText: "ادخل رقم جوالك",
-                    onChanged: (p0) {},
-                  )
+                  CustomTextField(
+                      hintText: "ادخل رقم جوالك",
+                      keyboardType: TextInputType.phone,
+                      txtController: passController),
                 ],
               ),
             ),

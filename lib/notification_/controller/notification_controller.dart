@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:elnoor_managment/core/api/api_consumer.dart';
 import 'package:elnoor_managment/core/errors/exceptions.dart';
+import 'package:elnoor_managment/notification_/model/notification_model.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -31,6 +32,26 @@ class NotificationController extends GetxController {
             ApiKeys.auth: "Bearer $token",
           }));
       print("the response from noti is ${response.data}");
+    } on ServerExcption catch (e) {
+      throw Exception(
+          'Failed to load posts: ${e.errModel.nonFieldErrors.toString()}');
+    }
+  }
+
+  //====================================================
+  Future<List<NotificationModel>> showNotification() async {
+    try {
+      var token = storage.read("accessToken");
+      var response = await dio.get(EndPoint.listNotification,
+          options: Options(headers: {
+            ApiKeys.auth: "Beaer $token",
+          }));
+      print("the notification list is ${response.data}");
+      List<dynamic> jsonResponse = response.data;
+      List<NotificationModel> notiList =
+          jsonResponse.map((e) => NotificationModel.fromJson(e)).toList();
+      print("llllllllllll ${notiList.length}");
+      return notiList;
     } on ServerExcption catch (e) {
       throw Exception(
           'Failed to load posts: ${e.errModel.nonFieldErrors.toString()}');

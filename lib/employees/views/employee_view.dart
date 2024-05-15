@@ -25,7 +25,7 @@ class EmployeeView extends StatefulWidget {
 }
 
 class _EmployeeViewState extends State<EmployeeView> {
-  final controller = Get.put(EmployeeController(api: DioConsumer(dio: Dio())));
+  final controller = Get.put(EmployeeController());
 
   @override
   Widget build(BuildContext context) {

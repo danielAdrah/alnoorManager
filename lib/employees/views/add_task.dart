@@ -19,7 +19,7 @@ class AddTask extends StatefulWidget {
 }
 
 class _AddTaskState extends State<AddTask> {
-  final controller = Get.put(EmployeeController(api: DioConsumer(dio: Dio())));
+  final controller = Get.put(EmployeeController());
   clearText() {
     controller.taskName.clear();
     controller.taskContent.clear();
@@ -50,7 +50,7 @@ class _AddTaskState extends State<AddTask> {
             child: const Text('إضافة مهمة')),
       ),
       body: GetBuilder<EmployeeController>(
-          init: EmployeeController(api: DioConsumer(dio: Dio())),
+          init: EmployeeController(),
           builder: (controller) {
             return Container(
               child: SingleChildScrollView(

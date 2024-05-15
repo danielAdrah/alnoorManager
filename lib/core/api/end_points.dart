@@ -8,6 +8,16 @@ class EndPoint {
   }
 
   static String addNotification = "send-notification/";
+  static String addEmployee = "create-employee/";
+  static String updateEmployee(List empId) {
+    return "update-employee/$empId/";
+  }
+
+  static String getEmployee(empId) {
+    return "get-employee/$empId";
+  }
+
+  static String listNotification = "list-notifications/";
 }
 
 class ApiKeys {
@@ -17,4 +27,6 @@ class ApiKeys {
   static String deviceId = "device_token";
   static String title = "title";
   static String content = "content";
+  static String email = "email";
+  static String phonenumber = "phonenumber";
 }

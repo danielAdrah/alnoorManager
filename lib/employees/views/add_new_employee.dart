@@ -1,6 +1,9 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:animate_do/animate_do.dart';
 import 'package:elnoor_managment/comon_widgets/custom_text_field.dart';
 import 'package:elnoor_managment/comon_widgets/primary_button.dart';
+import 'package:elnoor_managment/employees/controller/employee_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -16,9 +19,14 @@ class AddNewEmployee extends StatefulWidget {
 }
 
 class _AddNewEmployeeState extends State<AddNewEmployee> {
-  final TextEditingController nameController = TextEditingController();
-  final TextEditingController passController = TextEditingController();
-  final TextEditingController numController = TextEditingController();
+  final controller = Get.put(EmployeeController());
+  clearText() {
+    controller.nameController.clear();
+    controller.numController.clear();
+    controller.passController.clear();
+    controller.mailController.clear();
+  }
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -42,75 +50,101 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
           )
         ],
       ),
-      body: SingleChildScrollView(
-        child: Column(
-          children: [
-            const SizedBox(height: 30),
-            FadeInLeft(
-              delay: Duration(milliseconds: 500),
+      body: GetBuilder<EmployeeController>(
+          init: EmployeeController(),
+          builder: (controller) {
+            return SingleChildScrollView(
               child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
                 children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: media.width * 0.05),
-                    child: const Text("  الاسم"),
+                  const SizedBox(height: 30),
+                  FadeInLeft(
+                    delay: Duration(milliseconds: 500),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: media.width * 0.05),
+                          child: const Text("  الاسم"),
+                        ),
+                        const SizedBox(height: 10),
+                        CustomTextField(
+                            txtController: controller.nameController,
+                            hintText: "ادخل الاسم",
+                            keyboardType: TextInputType.name)
+                      ],
+                    ),
                   ),
-                  const SizedBox(height: 10),
-                  CustomTextField(
-                      txtController: nameController,
-                      hintText: "ادخل الاسم",
-                      keyboardType: TextInputType.name)
+                  FadeInRight(
+                    delay: Duration(milliseconds: 500),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: media.width * 0.05),
+                          child: const Text("  حسابك"),
+                        ),
+                        const SizedBox(height: 10),
+                        CustomTextField(
+                            txtController: controller.mailController,
+                            hintText: "ادخل حسابك",
+                            keyboardType: TextInputType.name)
+                      ],
+                    ),
+                  ),
+                  FadeInRight(
+                    delay: Duration(milliseconds: 500),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: media.width * 0.05),
+                          child: Align(
+                              alignment: Alignment.centerRight,
+                              child: const Text("رقم الجوال")),
+                        ),
+                        const SizedBox(height: 11),
+                        CustomTextField(
+                            hintText: "ادخل رقم جوالك",
+                            keyboardType: TextInputType.phone,
+                            txtController: controller.numController),
+                      ],
+                    ),
+                  ),
+                  FadeInLeft(
+                    delay: Duration(milliseconds: 500),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: media.width * 0.05),
+                          child: const Text(" كلمة المرور"),
+                        ),
+                        const SizedBox(height: 10),
+                        PasswordCustomTextField(
+                            controller: controller.passController,
+                            hintText: "ادخل  كلمة المرور",
+                            keyboardType: TextInputType.text),
+                      ],
+                    ),
+                  ),
+                  const SizedBox(height: 40),
+                  ZoomIn(
+                      delay: Duration(milliseconds: 600),
+                      curve: Curves.linear,
+                      child: PrimaryButton(
+                          onTap: () {
+                            controller.addEmployee();
+                            clearText();
+                          },
+                          text: 'أضف')),
                 ],
               ),
-            ),
-            FadeInRight(
-              delay: Duration(milliseconds: 500),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: media.width * 0.05),
-                    child: Align(
-                        alignment: Alignment.centerRight,
-                        child: const Text("رقم الجوال")),
-                  ),
-                  const SizedBox(height: 11),
-                  NumberTextField(
-                    controller: numController,
-                    labelText: "ادخل رقم جوالك",
-                    onChanged: (p0) {},
-                  )
-                ],
-              ),
-            ),
-            FadeInLeft(
-              delay: Duration(milliseconds: 500),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Padding(
-                    padding:
-                        EdgeInsets.symmetric(horizontal: media.width * 0.05),
-                    child: const Text(" كلمة المرور"),
-                  ),
-                  const SizedBox(height: 10),
-                  PasswordCustomTextField(
-                      controller: passController,
-                      hintText: "ادخل  كلمة المرور",
-                      keyboardType: TextInputType.text),
-                ],
-              ),
-            ),
-            const SizedBox(height: 40),
-            ZoomIn(
-                delay: Duration(milliseconds: 600),
-                curve: Curves.linear,
-                child: PrimaryButton(onTap: () {}, text: 'أضف')),
-          ],
-        ),
-      ),
+            );
+          }),
     );
   }
 }
