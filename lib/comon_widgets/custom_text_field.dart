@@ -7,8 +7,11 @@ class CustomTextField extends StatelessWidget {
   final TextInputType? keyboardType;
   final TextEditingController txtController;
 
-   CustomTextField(
-      {super.key, required this.hintText, required this.keyboardType, required this.txtController});
+  CustomTextField(
+      {super.key,
+      required this.hintText,
+      required this.keyboardType,
+      required this.txtController});
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +22,13 @@ class CustomTextField extends StatelessWidget {
       child: Container(
         height: 50,
         child: TextField(
+          textAlign: TextAlign.end,
           controller: txtController,
           keyboardType: keyboardType,
           decoration: InputDecoration(
             hintText: hintText,
             hintStyle: TextStyle(color: Colors.black.withOpacity(0.3)),
-            hintTextDirection: TextDirection.rtl,
+            hintTextDirection: TextDirection.ltr,
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: const BorderSide()),

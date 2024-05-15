@@ -5,8 +5,8 @@ import 'package:get/get.dart';
 import '../../theme.dart';
 import '../chat/view/chat_view.dart';
 import '../chat/view/start_chat.dart';
-import '../clients_view/views/add_new_client.dart';
-import '../clients_view/views/client_view.dart';
+import '../pilgrims/views/add_new_client.dart';
+import '../pilgrims/views/pilgrim.dart';
 import '../employees/views/add_new_employee.dart';
 import '../employees/views/employee_view.dart';
 import '../notification_/views/add_new_notification.dart';
@@ -22,7 +22,7 @@ class MainTabView extends StatefulWidget {
 class _MainTabViewState extends State<MainTabView> {
   int selectTab = 0;
   PageStorageBucket pageStorageBucket = PageStorageBucket();
-  Widget currentTabView = const ClientView();
+  Widget currentTabView = const PilgrimView();
 
   @override
   Widget build(BuildContext context) {
@@ -56,7 +56,7 @@ class _MainTabViewState extends State<MainTabView> {
                                   onPressed: () {
                                     setState(() {
                                       selectTab = 0;
-                                      currentTabView = const ClientView();
+                                      currentTabView = const PilgrimView();
                                     });
                                   },
                                   icon: Image.asset(

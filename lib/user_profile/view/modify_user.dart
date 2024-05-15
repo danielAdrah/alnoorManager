@@ -81,37 +81,12 @@ class _ModifyUserState extends State<ModifyUser> {
               const SizedBox(height: 20),
               ListView.separated(
                   separatorBuilder: (context, inx) {
-                    return SizedBox(height: 15);
+                    return SizedBox(height: media.height * 0.02);
                   },
                   shrinkWrap: true,
                   physics: const NeverScrollableScrollPhysics(),
                   itemCount: titles.length,
                   itemBuilder: (context, index) {
-                    if (index == 1) {
-                      return FadeInLeft(
-                        delay: Duration(milliseconds: 600),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: media.width * 0.05),
-                              child: Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Text("رقم الجوال")),
-                            ),
-                            NumberTextField(
-                              controller: numberController,
-                              labelText: "رقمك",
-                              onChanged: (e) {
-                                String fullPhoneNumber =
-                                    "${e.countryCode}${e.number}";
-                                // onChanged?.call(fullPhoneNumber);
-                              },
-                            ),
-                          ],
-                        ),
-                      );
-                    }
                     return FadeInLeft(
                       delay: Duration(milliseconds: 600),
                       child: Column(
@@ -126,7 +101,9 @@ class _ModifyUserState extends State<ModifyUser> {
                           ),
                           CustomTextField(
                             hintText: "",
-                            keyboardType: TextInputType.name,
+                            keyboardType: index == 1
+                                ? TextInputType.phone
+                                : TextInputType.name,
                             txtController: (() {
                               switch (index) {
                                 case 0:

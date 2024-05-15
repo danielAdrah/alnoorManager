@@ -1,31 +1,28 @@
-// ignore_for_file: prefer_const_constructors
-
 import 'package:animate_do/animate_do.dart';
 import 'package:dio/dio.dart';
-import 'package:elnoor_managment/employees/views/modify_emp_info.dart';
+import 'package:elnoor_managment/pilgrims/controller/pilgrim_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
+import '../../chat/view/in_chat.dart';
 import '../../comon_widgets/client_contact.dart';
 import '../../comon_widgets/search_bar.dart';
 import '../../comon_widgets/secondary_button.dart';
 import '../../comon_widgets/secondary_button2.dart';
 import '../../core/api/dio_consumer.dart';
 import '../../theme.dart';
+import '../../user_profile/view/modify_user.dart';
 import '../../user_profile/view/user_profile_view.dart';
-import '../controller/employee_controller.dart';
-import 'add_task.dart';
-import 'employee_info.dart';
 
-class EmployeeView extends StatefulWidget {
-  const EmployeeView({super.key});
+class PilgrimView extends StatefulWidget {
+  const PilgrimView({super.key});
 
   @override
-  State<EmployeeView> createState() => _EmployeeViewState();
+  State<PilgrimView> createState() => _PilgrimViewState();
 }
 
-class _EmployeeViewState extends State<EmployeeView> {
-  final controller = Get.put(EmployeeController(api: DioConsumer(dio: Dio())));
+class _PilgrimViewState extends State<PilgrimView> {
+  final controller = Get.put(PilgrimController(api: DioConsumer(dio: Dio())));
 
   @override
   Widget build(BuildContext context) {
@@ -34,23 +31,24 @@ class _EmployeeViewState extends State<EmployeeView> {
         centerTitle: true,
         automaticallyImplyLeading: false,
         title: FadeInDown(
-            delay: Duration(milliseconds: 600), child: const Text('الموظفين')),
+            delay: const Duration(milliseconds: 600),
+            child: const Text('الحجاج')),
       ),
       body: SingleChildScrollView(
         child: Column(
           children: [
             const SizedBox(height: 50),
             FadeInRight(
-                delay: Duration(milliseconds: 600),
-                child: CustomSearchBar(
-                  hintText: "ابحث عن موظف",
+                delay: const Duration(milliseconds: 600),
+                child: const CustomSearchBar(
+                  hintText: "ابحث عن الحاج",
                 )),
             const SizedBox(height: 20),
             FutureBuilder(
-                future: controller.fetchEmployee(),
-                builder: ((context, snapshot) {
+                future: controller.fetchPilgrims(),
+                builder: (controller, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
-                    return Center(
+                    return const Center(
                         child: CircularProgressIndicator(
                       color: TColor.primary,
                     ));
@@ -64,7 +62,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                         itemBuilder: ((context, index) {
                           var data = snapshot.data![index];
                           return FadeInLeft(
-                              delay: Duration(milliseconds: 600),
+                              delay: const Duration(milliseconds: 600),
                               child: Container(
                                 margin: const EdgeInsets.all(8),
                                 padding: const EdgeInsets.all(10),
@@ -80,34 +78,41 @@ class _EmployeeViewState extends State<EmployeeView> {
                                           CrossAxisAlignment.end,
                                       children: [
                                         Text(
-                                          data.username,
+                                          data.firstName,
                                           style: TextStyle(
                                               color: TColor.black,
                                               fontSize: 18,
                                               fontWeight: FontWeight.w500),
                                         ),
-                                        const SizedBox(height: 5),
                                         Text(
                                           data.phonenumber,
                                           style: TextStyle(
-                                            color: TColor.primary,
+                                            color:
+                                                TColor.black.withOpacity(0.4),
                                             fontSize: 11,
                                           ),
                                         ),
-                                        const SizedBox(height: 8),
+                                        Text(
+                                          data.hotel,
+                                          style: const TextStyle(
+                                              color: TColor.primary,
+                                              fontSize: 9),
+                                        ),
+                                        const SizedBox(height: 5),
                                         Row(
                                           children: [
                                             SecondaryButton2(
-                                              text: " تعديل",
+                                              text: "تعديل",
                                               onTap: () {
-                                                Get.to(() => ModifyEmployee());
+                                                Get.to(
+                                                    () => const ModifyUser());
                                               },
                                             ),
-                                            SizedBox(width: 20),
+                                            const SizedBox(width: 20),
                                             SecondaryButton(
-                                              text: 'إضافة مهمة',
+                                              text: 'دردشة',
                                               onTap: () {
-                                                Get.to(() => AddTask());
+                                                Get.to(() => const InChat());
                                               },
                                             ),
                                           ],
@@ -117,7 +122,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                                     const SizedBox(width: 5),
                                     InkWell(
                                       onTap: () {
-                                        Get.to(() => UserProfileView());
+                                        Get.to(() => const UserProfileView());
                                       },
                                       child: const CircleAvatar(
                                         radius: 25,
@@ -130,7 +135,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                               ));
                         }));
                   }
-                })),
+                }),
           ],
         ),
       ),

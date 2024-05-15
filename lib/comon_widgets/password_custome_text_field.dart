@@ -30,6 +30,7 @@ class _PasswordCustomTextFieldState extends State<PasswordCustomTextField> {
       child: Container(
         height: 50,
         child: TextField(
+          textAlign: TextAlign.end,
           controller: widget.controller,
           obscureText: toggle,
           keyboardType: widget.keyboardType,
@@ -45,7 +46,7 @@ class _PasswordCustomTextFieldState extends State<PasswordCustomTextField> {
                     : Icon(Icons.visibility_off)),
             hintText: widget.hintText,
             hintStyle: TextStyle(color: Colors.black.withOpacity(0.3)),
-            hintTextDirection: TextDirection.rtl,
+            hintTextDirection: TextDirection.ltr,
             border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(30),
                 borderSide: const BorderSide()),
