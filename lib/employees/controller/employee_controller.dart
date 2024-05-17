@@ -56,11 +56,7 @@ class EmployeeController extends GetxController {
           jsonResponse.map((e) => EmployeeModel.fromJson(e)).toList();
       print("the length is ${employeeList.length}");
       List employeeId = employeeList.map((e) => e.id).toList();
-      var id;
-      for (var i in employeeId) {
-        var j = i;
-        id = j;
-      }
+
       storage.write("aa", employeeId);
 
       return employeeList;
@@ -78,13 +74,16 @@ class EmployeeController extends GetxController {
 
     try {
       IndiviualEmployeeModel? getEmployee;
-      // for (var employeeId in empID) {
-      // String endPoint = EndPoint.getEmployee(employeeId);
-      var response = await dio.get(
-        EndPoint.getEmployee(id),
-        options: Options(headers: {ApiKeys.auth: "Bearer $token"}),
-      );
-      print("the one employee is ${response.data}");
+      List employeeID = storage.read("aa");
+      var response;
+      for (var id in employeeID) {
+        String end = EndPoint.getEmployee(id);
+        response = await dio.get(
+          end,
+          options: Options(headers: {ApiKeys.auth: "Bearer $token"}),
+        );
+        print("the one employee is ${response.data}");
+      }
 
       getEmployee = IndiviualEmployeeModel.fromJson(response.data);
       print("the data is ${getEmployee.username}");
