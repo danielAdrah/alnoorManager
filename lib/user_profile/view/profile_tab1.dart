@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
+import '../../employees/controller/employee_controller.dart';
 import '../../theme.dart';
-
 
 class ProfileTab1 extends StatefulWidget {
   const ProfileTab1({super.key});
@@ -11,6 +12,7 @@ class ProfileTab1 extends StatefulWidget {
 }
 
 class _ProfileTab1State extends State<ProfileTab1> {
+  final EmployeeController controller = Get.put(EmployeeController());
   @override
   Widget build(BuildContext context) {
     return Padding(

@@ -22,7 +22,8 @@ class PilgrimView extends StatefulWidget {
 }
 
 class _PilgrimViewState extends State<PilgrimView> {
-  final controller = Get.put(PilgrimController(api: DioConsumer(dio: Dio())));
+  final PilgrimController controller =
+      Get.put(PilgrimController(api: DioConsumer(dio: Dio())));
 
   @override
   Widget build(BuildContext context) {
@@ -46,7 +47,7 @@ class _PilgrimViewState extends State<PilgrimView> {
             const SizedBox(height: 20),
             FutureBuilder(
                 future: controller.fetchPilgrims(),
-                builder: (controller, snapshot) {
+                builder: (cotext, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
                     return const Center(
                         child: CircularProgressIndicator(
@@ -78,7 +79,7 @@ class _PilgrimViewState extends State<PilgrimView> {
                                           CrossAxisAlignment.end,
                                       children: [
                                         Text(
-                                          data.firstName,
+                                          "${data.firstName} ${data.fatherName} ${data.lastName}",
                                           style: TextStyle(
                                               color: TColor.black,
                                               fontSize: 18,
@@ -122,13 +123,16 @@ class _PilgrimViewState extends State<PilgrimView> {
                                     const SizedBox(width: 5),
                                     InkWell(
                                       onTap: () {
+                                        controller.getPilgrim(data.id);
                                         Get.to(() => const UserProfileView());
                                       },
-                                      child: const CircleAvatar(
-                                        radius: 25,
-                                        backgroundImage: AssetImage(
-                                            "assets/img/bigAvatar.png"),
-                                      ),
+                                      child: CircleAvatar(
+                                          radius: 25,
+                                          backgroundImage:
+                                              NetworkImage(data.image)
+                                          // AssetImage(
+                                          //     "assets/img/bigAvatar.png"),
+                                          ),
                                     ),
                                   ],
                                 ),

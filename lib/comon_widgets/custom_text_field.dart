@@ -22,10 +22,12 @@ class CustomTextField extends StatelessWidget {
       child: Container(
         height: 50,
         child: TextField(
+          
           textAlign: TextAlign.end,
           controller: txtController,
           keyboardType: keyboardType,
           decoration: InputDecoration(
+            
             hintText: hintText,
             hintStyle: TextStyle(color: Colors.black.withOpacity(0.3)),
             hintTextDirection: TextDirection.ltr,

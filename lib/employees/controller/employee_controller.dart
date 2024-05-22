@@ -38,7 +38,8 @@ class EmployeeController extends GetxController {
   final TextEditingController updatedEmpnumController = TextEditingController();
   //                   --------
 
-  List<EmployeeModel> employeeList = [];
+  RxList<EmployeeModel> empList = <EmployeeModel>[].obs;
+  Rx<IndiviualEmployeeModel?> employee = Rx<IndiviualEmployeeModel?>(null);
   AddTaskModel? newTask;
   //==========================================
 
@@ -56,9 +57,15 @@ class EmployeeController extends GetxController {
           jsonResponse.map((e) => EmployeeModel.fromJson(e)).toList();
       print("the length is ${employeeList.length}");
       List employeeId = employeeList.map((e) => e.id).toList();
+      var id;
+      for (var emp in employeeList) {
+        var idd = emp.id;
+        id = idd;
+      }
 
-      storage.write("aa", employeeId);
-
+      storage.write("mm", id);
+      empList.value = employeeList;
+      print("the obx is ${empList[0].email}");
       return employeeList;
     } on ServerExcption catch (e) {
       throw Exception(
@@ -67,26 +74,24 @@ class EmployeeController extends GetxController {
   }
 
   //====================================================================
-  Future<IndiviualEmployeeModel> getEmployee() async {
+  Future<IndiviualEmployeeModel> getEmployee(int id) async {
     var token = storage.read("accessToken");
     print("token from indiviual is $token");
-    var id = storage.read("aa");
 
     try {
       IndiviualEmployeeModel? getEmployee;
-      List employeeID = storage.read("aa");
-      var response;
-      for (var id in employeeID) {
-        String end = EndPoint.getEmployee(id);
-        response = await dio.get(
-          end,
-          options: Options(headers: {ApiKeys.auth: "Bearer $token"}),
-        );
-        print("the one employee is ${response.data}");
-      }
+      // var id = storage.read("mm");
+      var response = await dio.get(
+        EndPoint.getEmployee(id),
+        options: Options(headers: {ApiKeys.auth: "Bearer $token"}),
+      );
+
+      print("the one employee is ${response.data}");
 
       getEmployee = IndiviualEmployeeModel.fromJson(response.data);
-      print("the data is ${getEmployee.username}");
+      print("the data is ${getEmployee.id}");
+      employee.value = getEmployee;
+      print("the obx is ${employee.value!.username}");
       // }
       return getEmployee;
     } on ServerExcption catch (e) {
@@ -128,6 +133,7 @@ class EmployeeController extends GetxController {
   addEmployee() async {
     try {
       var token = storage.read("accessToken");
+      print("token from addEmp $token");
       var response = await dio.post(EndPoint.addEmployee,
           options: Options(headers: {
             ApiKeys.auth: "Bearer $token",
@@ -135,10 +141,37 @@ class EmployeeController extends GetxController {
           data: {
             ApiKeys.username: nameController.text,
             ApiKeys.email: mailController.text,
-            ApiKeys.password: passController.text,
-            ApiKeys.phonenumber: numController.text,
+            ApiKeys.password: numController.text,
+            ApiKeys.phonenumber: passController.text,
           });
       print("the newEmp response is ${response.data} ");
+    } on ServerExcption catch (e) {
+      throw Exception(
+          'Failed to load posts: ${e.errModel.nonFieldErrors.toString()}');
+    }
+  }
+
+  //=========================================================
+  updateEmployee() async {
+    try {
+      var token = storage.read("accessToken");
+      var empId = storage.read("mm");
+      print("from update ${empId}");
+
+      var response = await dio.put(
+        EndPoint.updateEmployee(empId),
+        data: {
+          ApiKeys.username: updatedEmpnameController.text,
+          ApiKeys.phonenumber: updatedEmpnumController.text,
+          ApiKeys.email: updatedEmpmailController.text,
+          ApiKeys.password: updatedEmppassController.text,
+        },
+        options: Options(headers: {
+          ApiKeys.auth: "Bearer $token",
+        }),
+      );
+      print("response from updated is ${response.data}");
+      print("token from update is $token");
     } on ServerExcption catch (e) {
       throw Exception(
           'Failed to load posts: ${e.errModel.nonFieldErrors.toString()}');

@@ -9,15 +9,19 @@ class EndPoint {
 
   static String addNotification = "send-notification/";
   static String addEmployee = "create-employee/";
-  static String updateEmployee(List empId) {
-    return "update-employee/$empId/";
-  }
-
   static String getEmployee(empId) {
     return "get-employee/$empId";
   }
 
   static String listNotification = "list-notifications/";
+  static String oneEmppoyee = "get-employee/";
+  static String updateEmployee(id) {
+    return "update-employee/$id/";
+  }
+
+  static String getPilgrim(id) {
+    return "get-pilgrim/$id"; 
+  }
 }
 
 class ApiKeys {

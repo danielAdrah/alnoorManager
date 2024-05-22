@@ -100,6 +100,8 @@ class _EmployeeViewState extends State<EmployeeView> {
                                             SecondaryButton2(
                                               text: " تعديل",
                                               onTap: () {
+                                                // controller.getEmployee(data.id);
+
                                                 Get.to(() => ModifyEmployee());
                                               },
                                             ),
@@ -117,7 +119,7 @@ class _EmployeeViewState extends State<EmployeeView> {
                                     const SizedBox(width: 5),
                                     InkWell(
                                       onTap: () {
-                                        Get.to(() => UserProfileView());
+                                        // Get.to(() => UserProfileView());
                                       },
                                       child: const CircleAvatar(
                                         radius: 25,

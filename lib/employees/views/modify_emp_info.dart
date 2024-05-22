@@ -27,6 +27,7 @@ class _ModifyEmployeeState extends State<ModifyEmployee> {
   }
 
   List<String> titles = ["الاسم", "رقم الجوال", "الإيميل", "كلمة السر"];
+
   @override
   Widget build(BuildContext context) {
     var media = MediaQuery.of(context).size;
@@ -52,97 +53,83 @@ class _ModifyEmployeeState extends State<ModifyEmployee> {
         ],
       ),
       body: SingleChildScrollView(
-        child: FutureBuilder(
-            future: controller.getEmployee(),
-            builder: (context, snapshot) {
-              if (snapshot.connectionState == ConnectionState.waiting) {
-                return Center(
-                    child: CircularProgressIndicator(
-                  color: TColor.primary,
-                ));
-              } else if (snapshot.hasError) {
-                return Center(child: Text('Error: ${snapshot.error}'));
-              } else {
-                return Center(child: Text(snapshot.data!.username));
-              }
-            }),
-        // child: GetBuilder<EmployeeController>(
-        //     init: EmployeeController(),
-        //     builder: (controller) {
-        //       return Column(children: [
-        //         SizedBox(
-        //           height: media.width * 0.2,
-        //         ),
-        //         ListView.separated(
-        //             separatorBuilder: (context, inx) {
-        //               return SizedBox(height: 15);
-        //             },
-        //             shrinkWrap: true,
-        //             physics: const NeverScrollableScrollPhysics(),
-        //             itemCount: titles.length,
-        //             itemBuilder: (context, index) {
-        //               return Column(
-        //                 mainAxisAlignment: MainAxisAlignment.end,
-        //                 children: [
-        //                   Padding(
-        //                     padding: EdgeInsets.symmetric(
-        //                         horizontal: media.width * 0.05),
-        //                     child: Align(
-        //                         alignment: Alignment.centerRight,
-        //                         child: Text(titles[index])),
-        //                   ),
-        //                   CustomTextField(
-        //                     hintText: "",
-        //                     keyboardType: (() {
-        //                       switch (index) {
-        //                         case 0:
-        //                           return TextInputType.name;
+          child: FutureBuilder(
+              future: controller.fetchEmployee(),
+              builder: (context, snapshot) {
+                return Column(children: [
+                  SizedBox(
+                    height: media.width * 0.2,
+                  ),
+                  ListView.separated(
+                      separatorBuilder: (context, inx) {
+                        return SizedBox(height: 15);
+                      },
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: titles.length,
+                      itemBuilder: (context, index) {
+                        var data = snapshot.data![index];
+                        return Column(
+                          mainAxisAlignment: MainAxisAlignment.end,
+                          children: [
+                            Padding(
+                              padding: EdgeInsets.symmetric(
+                                  horizontal: media.width * 0.05),
+                              child: Align(
+                                  alignment: Alignment.centerRight,
+                                  child: Text(titles[index])),
+                            ),
+                            CustomTextField(
+                              hintText: "",
+                              keyboardType: (() {
+                                switch (index) {
+                                  case 0:
+                                    return TextInputType.name;
 
-        //                         case 1:
-        //                           return TextInputType.phone;
+                                  case 1:
+                                    return TextInputType.phone;
 
-        //                         case 2:
-        //                           return TextInputType.emailAddress;
+                                  case 2:
+                                    return TextInputType.emailAddress;
 
-        //                         default:
-        //                           return TextInputType
-        //                               .name; // or any other default controller
-        //                       }
-        //                     })(),
-        //                     txtController: (() {
-        //                       switch (index) {
-        //                         case 0:
-        //                           return controller.updatedEmpnameController;
+                                  default:
+                                    return TextInputType
+                                        .name; // or any other default controller
+                                }
+                              })(),
+                              txtController: (() {
+                                switch (index) {
+                                  case 0:
+                                    return controller.updatedEmpnameController;
 
-        //                         case 1:
-        //                           return controller.updatedEmpnumController;
-        //                         case 2:
-        //                           return controller.updatedEmpmailController;
+                                  case 1:
+                                    return controller.updatedEmpnumController;
+                                  case 2:
+                                    return controller.updatedEmpmailController;
 
-        //                         case 3:
-        //                           return controller.updatedEmppassController;
+                                  case 3:
+                                    return controller.updatedEmppassController;
 
-        //                         default:
-        //                           return TextEditingController(); // or any other default controller
-        //                       }
-        //                     })(),
-        //                   )
-        //                 ],
-        //               );
-        //             }),
-        //         PrimaryButton(
-        //             onTap: () {
-        //               // print(controller.updatedEmpnameController.text);
-        //               // print(controller.updatedEmpnumController.text);
-        //               // print(controller.updatedEmpmailController.text);
-        //               // print(controller.updatedEmppassController.text);
-        //               controller.getEmployee();
-        //               clearFields();
-        //             },
-        //             text: "حفظ"),
-        //       ]);
-        //     }),
-      ),
+                                  default:
+                                    return TextEditingController(); // or any other default controller
+                                }
+                              })(),
+                            )
+                          ],
+                        );
+                      }),
+                  PrimaryButton(
+                      onTap: () {
+                        print(controller.updatedEmpnameController.text);
+                        print(controller.updatedEmpnumController.text);
+                        print(controller.updatedEmpmailController.text);
+                        print(controller.updatedEmppassController.text);
+                        controller.updateEmployee();
+                        clearFields();
+                      },
+                      text: "حفظ"),
+                ]);
+              })),
     );
   }
 }

@@ -11,4 +11,10 @@ final class LogInFailure extends UserState {
 
   LogInFailure({required this.errMessage});
 }
+
 //================================================
+final class SendDone extends UserState {
+  final String doneMessage;
+
+  SendDone({required this.doneMessage});
+}
