@@ -41,6 +41,9 @@ class EmployeeController extends GetxController {
   RxList<EmployeeModel> empList = <EmployeeModel>[].obs;
   Rx<IndiviualEmployeeModel?> employee = Rx<IndiviualEmployeeModel?>(null);
   AddTaskModel? newTask;
+  bool isAdded = false;
+  bool taskAdd = false;
+  List ids = [];
   //==========================================
 
   Future<List<EmployeeModel>> fetchEmployee() async {
@@ -61,6 +64,11 @@ class EmployeeController extends GetxController {
       for (var emp in employeeList) {
         var idd = emp.id;
         id = idd;
+      }
+      
+      for (var i in employeeList) {
+        var id = i.id;
+        ids.add(id);
       }
 
       storage.write("mm", id);
@@ -119,6 +127,8 @@ class EmployeeController extends GetxController {
                 ApiKeys.auth: "Bearer $token",
               },
             ));
+        taskAdd = true;
+        update();
         print("the response from the task ${response.data}");
         newTask = AddTaskModel.fromJson(response.data);
         print("something ${newTask!.content}");
@@ -144,6 +154,8 @@ class EmployeeController extends GetxController {
             ApiKeys.password: numController.text,
             ApiKeys.phonenumber: passController.text,
           });
+      isAdded = true;
+      update();
       print("the newEmp response is ${response.data} ");
     } on ServerExcption catch (e) {
       throw Exception(

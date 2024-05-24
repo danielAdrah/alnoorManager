@@ -105,6 +105,8 @@ class _PilgrimViewState extends State<PilgrimView> {
                                             SecondaryButton2(
                                               text: "تعديل",
                                               onTap: () {
+                                                controller
+                                                    .updatePilgrim(data.id);
                                                 Get.to(
                                                     () => const ModifyUser());
                                               },
@@ -128,8 +130,8 @@ class _PilgrimViewState extends State<PilgrimView> {
                                       },
                                       child: CircleAvatar(
                                           radius: 25,
-                                          backgroundImage:
-                                              NetworkImage(data.image)
+                                          backgroundImage: NetworkImage(
+                                              data.image.toString())
                                           // AssetImage(
                                           //     "assets/img/bigAvatar.png"),
                                           ),

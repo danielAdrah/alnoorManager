@@ -53,9 +53,9 @@ class _ModifyEmployeeState extends State<ModifyEmployee> {
         ],
       ),
       body: SingleChildScrollView(
-          child: FutureBuilder(
-              future: controller.fetchEmployee(),
-              builder: (context, snapshot) {
+          child: GetBuilder<EmployeeController>(
+              init: EmployeeController(),
+              builder: (controller) {
                 return Column(children: [
                   SizedBox(
                     height: media.width * 0.2,
@@ -68,7 +68,6 @@ class _ModifyEmployeeState extends State<ModifyEmployee> {
                       physics: const NeverScrollableScrollPhysics(),
                       itemCount: titles.length,
                       itemBuilder: (context, index) {
-                        var data = snapshot.data![index];
                         return Column(
                           mainAxisAlignment: MainAxisAlignment.end,
                           children: [

@@ -96,11 +96,10 @@ class _AddTaskState extends State<AddTask> {
                               decoration: InputDecoration(
                                 hintText: "محتوى المهمة",
                                 hintTextDirection: TextDirection.ltr,
-                                focusedBorder:OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                  borderSide: BorderSide(color: TColor.primary)
-                                  
-                                ) ,
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(20),
+                                    borderSide:
+                                        BorderSide(color: TColor.primary)),
                                 border: OutlineInputBorder(
                                     borderRadius: BorderRadius.circular(20)),
                               ),
@@ -117,6 +116,29 @@ class _AddTaskState extends State<AddTask> {
                             onTap: () {
                               controller.addTask();
                               clearText();
+                              print(controller.taskAdd);
+                              if (controller.taskAdd == true) {
+                                showDialog(
+                                    context: context,
+                                    builder: ((context) {
+                                      return AlertDialog(
+                                        content: Container(
+                                          height: 100,
+                                          width: 100,
+                                          child: Column(
+                                            children: [
+                                              Icon(
+                                                Icons.done_all_outlined,
+                                                size: 60,
+                                                color: TColor.primary,
+                                              ),
+                                              Text("نم إرسال المهمة    "),
+                                            ],
+                                          ),
+                                        ),
+                                      );
+                                    }));
+                              }
                             },
                             text: "اضف"))
                   ],

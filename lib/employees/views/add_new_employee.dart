@@ -89,7 +89,7 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                         CustomTextField(
                             txtController: controller.mailController,
                             hintText: "ادخل حسابك",
-                            keyboardType: TextInputType.name)
+                            keyboardType: TextInputType.emailAddress)
                       ],
                     ),
                   ),
@@ -139,6 +139,29 @@ class _AddNewEmployeeState extends State<AddNewEmployee> {
                           onTap: () {
                             controller.addEmployee();
                             clearText();
+                            print(controller.isAdded);
+                            if (controller.isAdded == true) {
+                              showDialog(
+                                  context: context,
+                                  builder: ((context) {
+                                    return AlertDialog(
+                                      content: Container(
+                                        height: 100,
+                                        width: 100,
+                                        child: Column(
+                                          children: [
+                                            Icon(
+                                              Icons.done_all_outlined,
+                                              size: 60,
+                                              color: TColor.primary,
+                                            ),
+                                            Text("تمت الإضافة بنجاح  "),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  }));
+                            }
                           },
                           text: 'أضف')),
                 ],

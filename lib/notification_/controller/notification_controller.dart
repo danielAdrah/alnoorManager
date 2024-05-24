@@ -25,10 +25,12 @@ class NotificationController extends GetxController {
   //=================================
   NotificationDone? done;
   RxBool isSendDone = false.obs;
+  bool isDone = false;
   //=================================
 
   sendNotification() async {
     var token = storage.read("accessToken");
+
     try {
       var response = await dio.post(EndPoint.addNotification,
           data: {
@@ -38,8 +40,10 @@ class NotificationController extends GetxController {
           options: Options(headers: {
             ApiKeys.auth: "Bearer $token",
           }));
+      isDone = true;
+      update();
       print("the response from noti is ${response.data}");
-      isSendDone.value = true;
+
       // print("siiii ${done!.message}");
     } on ServerExcption catch (e) {
       throw Exception(
